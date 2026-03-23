@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "Иванов А.П.",
+    "age": 35,
+    "experience": 12,
+    "accidents": 0
+  },
+  {
+    "id": 2,
+    "name": "Петрова М.С.",
+    "age": 22,
+    "experience": 2,
+    "accidents": 1
+  },
+  {
+    "id": 3,
+    "name": "Сидоров В.Н.",
+    "age": 68,
+    "experience": 35,
+    "accidents": 0
+  },
+  {
+    "id": 4,
+    "name": "Козлова Е.В.",
+    "age": 31,
+    "experience": 8,
+    "accidents": 0
+  },
+  {
+    "id": 5,
+    "name": "Волков Д.А.",
+    "age": 44,
+    "experience": 18,
+    "accidents": 2
+  },
+  {
+    "id": 6,
+    "name": "Морозова К.П.",
+    "age": 19,
+    "experience": 1,
+    "accidents": 0
+  },
+  {
+    "id": 7,
+    "name": "Новиков Р.С.",
+    "age": 52,
+    "experience": 25,
+    "accidents": 0
+  },
+  {
+    "id": 8,
+    "name": "Зайцева Т.М.",
+    "age": 38,
+    "experience": 15,
+    "accidents": 1
+  }
+]
