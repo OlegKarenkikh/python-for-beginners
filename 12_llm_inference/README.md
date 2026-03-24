@@ -183,3 +183,129 @@ answer = ask_llm("Вопрос...", model="Qwen/Qwen2.5-7B-Instruct",
 1. Напишите функцию `summarize_claim(text)` — кратко суммирует заявление (3 предложения)
 2. Сделайте функцию `classify_risk(client_data)` — возвращает `{"risk": "low|medium|high"}`
 3. Оберните вызов LLM в FastAPI эндпоинт `POST /analyze-claim`
+
+
+---
+
+## ❓ Вопросы которые возникают при изучении
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/qa_llm_agents.png" alt="Вопросы о LLM и агентах" width="95%"/>
+</div>
+
+---
+
+### 🙋 Что такое `"role"` в messages? Зачем системе знать роль?
+
+OpenAI-совместимые API (Ollama, vLLM) ожидают разговор как список сообщений с ролями:
+
+```python
+messages = [
+    {"role": "system", "content": "Ты страховой агент. Отвечай только по делу."},
+    {"role": "user",   "content": "Посчитай премию для водителя 22 лет"},
+    {"role": "assistant", "content": "Для 22 лет базовая премия умножается на 1.5..."},
+    {"role": "user",   "content": "А для 35 лет?"},   # следующий вопрос
+]
+```
+
+- `system` — инструкции для модели (роль, правила, формат ответа)
+- `user` — сообщение от пользователя
+- `assistant` — предыдущий ответ модели (для сохранения контекста диалога)
+
+---
+
+### 🙋 `stream=True` — что значит «поток»?
+
+**Без stream:** модель думает 10 секунд, потом выдаёт весь ответ сразу.
+**С stream:** модель выдаёт ответ по кускам по мере генерации — как живой набор текста.
+
+```python
+# Без stream — ждёте до конца
+response = client.chat.completions.create(
+    model="llama3", messages=messages
+)
+print(response.choices[0].message.content)
+
+# С stream — выводите по мере получения
+for chunk in client.chat.completions.create(
+    model="llama3", messages=messages, stream=True
+):
+    delta = chunk.choices[0].delta.content
+    if delta:
+        print(delta, end="", flush=True)
+```
+
+---
+
+### 🙋 LLM всегда возвращает JSON? Что если нет?
+
+Нет! Даже если попросить — модель иногда добавляет пояснения:
+«Конечно! Вот JSON: `{...}`». Реальный код всегда оборачивает в `try/except`:
+
+```python
+import json, re
+
+raw = response.choices[0].message.content
+
+# Попытка 1: прямой парсинг
+try:
+    result = json.loads(raw)
+except json.JSONDecodeError:
+    # Попытка 2: извлечь JSON из текста
+    match = re.search(r'\{.*\}', raw, re.DOTALL)
+    if match:
+        result = json.loads(match.group())
+    else:
+        result = {"error": "invalid response", "raw": raw}
+```
+
+---
+
+### 🙋 Паттерн ReAct — как Python «понимает» что LLM думает?
+
+Python не понимает мышление. ReAct — это паттерн **промптинга**:
+в системном промпте модели объяснено отвечать строго в формате:
+
+```
+Thought: [что думаю о задаче]
+Action: {"tool": "calculate_premium", "args": {"age": 35}}
+```
+
+Python парсит этот текст и извлекает JSON из строки `Action:`.
+
+```python
+import re, json
+
+response_text = \"\"\"Thought: Нужно рассчитать премию для возраста 35.
+Action: {\"tool\": \"calculate_premium\", \"args\": {\"age\": 35}}\"\"\"\"
+
+match = re.search(r'Action:\s*(\{.*?\})', response_text, re.DOTALL)
+if match:
+    action = json.loads(match.group(1))
+    tool_name = action["tool"]      # "calculate_premium"
+    args = action["args"]           # {"age": 35}
+```
+
+---
+
+### 🙋 `tool_map = {t["name"]: t["func"] for t in tools}` — функция как значение словаря?
+
+Да! В Python функции — это объекты. Их можно класть куда угодно.
+
+```python
+def check_fraud(claim): ...
+def calculate(claim): ...
+
+tools = [
+    {"name": "check_fraud", "func": check_fraud},
+    {"name": "calculate",   "func": calculate},
+]
+
+tool_map = {t["name"]: t["func"] for t in tools}
+# {"check_fraud": <function check_fraud>, "calculate": <function calculate>}
+
+# Динамический вызов по имени:
+tool_map["check_fraud"](my_claim)   # вызвали нужную функцию
+```
+
+Это паттерн «реестр инструментов» — основа агентных систем.
