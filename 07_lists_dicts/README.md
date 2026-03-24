@@ -48,6 +48,8 @@ print(len(policies))   # количество элементов
 
 ---
 
+
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/list_indexing.jpg" alt="Индексы списка" width="90%"/></div>
 ## Срезы — взять кусок списка
 
 ```python
