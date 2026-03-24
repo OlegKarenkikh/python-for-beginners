@@ -439,3 +439,78 @@ clients = [
 **Задание 2:** Прочитайте `clients.json` и посчитайте среднюю премию по всем клиентам.
 
 **Задание 3:** Создайте словарь из двух списков `names` и `ages` и запишите его в файл `output.json`.
+
+
+---
+
+## 📌 Второй взгляд — Ловушки и боевые паттерны
+
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/list_dict_objects.jpg" width="95%"/></div>
+
+### Страшная сторона: IndexError и KeyError
+
+```python
+clients = ["Иванов", "Петрова", "Сидоров"]
+
+# IndexError
+print(clients[3])    # Список из 3 элементов, индекс 3 НЕ СУЩЕСТВУЕТ
+# IndexError: list index out of range
+
+# Правило: последний = -1
+print(clients[-1])   # "Сидоров"
+
+# Безопасный доступ
+def safe_get(lst, index, default=None):
+    return lst[index] if -len(lst) <= index < len(lst) else default
+
+print(safe_get(clients, 3))   # None — без ошибки
+```
+
+```python
+client = {"name": "Иванов", "age": 35}
+
+# KeyError
+print(client["city"])   # ключа 'city' нет!
+# Безопасный доступ
+print(client.get("city"))            # None
+print(client.get("city", "Москва")) # "Москва" — дефолт
+```
+
+### Страшная сторона: копирование — ловушка
+
+```python
+original = {"name": "Иванов", "premium": 12000}
+copy     = original   # оба указывают на ОДИН словарь!
+
+copy["premium"] = 99999
+print(original["premium"])  # 99999 — original тоже изменился!
+
+# ПРАВИЛЬНО
+copy = original.copy()
+
+# Вложенные структуры — глубокая копия
+import copy
+deep = copy.deepcopy(original)
+```
+
+### Список словарей — главная структура в реальных проектах
+
+```python
+clients = [
+    {"id": 1, "name": "Иванов А.П.",  "age": 35, "city": "Москва",  "premium": 12000},
+    {"id": 2, "name": "Петрова М.С.", "age": 22, "city": "СПб",     "premium": 18000},
+    {"id": 3, "name": "Сидоров К.Д.", "age": 47, "city": "Москва",  "premium": 12000},
+]
+
+# Фильтрация
+moscow = [c for c in clients if c["city"] == "Москва"]
+
+# Сортировка
+by_age = sorted(clients, key=lambda c: c["age"])
+
+# Статистика
+avg_premium = sum(c["premium"] for c in clients) / len(clients)
+young = [c for c in clients if c["age"] < 25]
+print(f"Средняя премия: {avg_premium:,.0f} руб.")
+print(f"Молодых: {len(young)}")
+```
