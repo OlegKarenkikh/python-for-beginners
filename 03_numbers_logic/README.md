@@ -1,5 +1,7 @@
 # 🔢 Глава 03: Числа и логика
 
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/numbers_traps.jpg" alt="Числа и ловушки" width="90%"/></div>
+
 > **Цель:** уверенно считать и сравнивать значения
 > **Время:** ~1 час
 
