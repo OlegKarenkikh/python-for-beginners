@@ -41,6 +41,8 @@ with open("clients.txt", "r", encoding="utf-8") as f:
 
 ---
 
+
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/with_open_files.jpg" alt="with open — ключ к файлу" width="90%"/></div>
 ## JSON — универсальный формат данных
 
 JSON — это способ сохранить словарь или список Python **в файл**, а потом прочитать обратно.
