@@ -4,7 +4,7 @@
 <img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_interface.jpg" alt="Jupyter interface" width="95%"/>
 </div>
 
-> Jupyter — среда, где код, результат и объяснение живут в одном документе.
+> **Jupyter** — среда, где код, результат и объяснение живут в одном документе.
 > Идеально для обучения, отладки и экспериментов.
 
 ---
@@ -31,7 +31,7 @@ jupyter lab          # откроет браузер на http://localhost:8888
 # Code cell — пишем код и жмём Shift+Enter
 clients = ['Иванов', 'Петрова', 'Сидоров']
 print(f'Клиентов: {len(clients)}')
-# Клиентов: 3   ← вывод появляется сразу здесь
+# Клиентов: 3   <- вывод появляется сразу здесь
 ```
 
 ---
@@ -42,7 +42,7 @@ print(f'Клиентов: {len(clients)}')
 <img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_shortcuts.jpg" alt="Jupyter shortcuts" width="95%"/>
 </div>
 
-### Запуск
+### Запуск ячеек
 
 | Комбинация | Действие |
 |---|---|
@@ -66,7 +66,7 @@ print(f'Клиентов: {len(clients)}')
 | Комбинация | Действие |
 |---|---|
 | `Tab` | Автодополнение |
-| `Shift+Tab` | Документация |
+| `Shift+Tab` | Документация по функции |
 | `Ctrl+/` | Комментарий |
 
 ---
@@ -74,14 +74,14 @@ print(f'Клиентов: {len(clients)}')
 ## Magic-команды
 
 ```python
-# Замер времени
+# Замер времени одной строки
 %timeit sum(range(1_000_000))
 
 # Время всей ячейки
 %%time
 data = [i**2 for i in range(1_000_000)]
 
-# Список переменных
+# Список переменных с типами
 %whos
 
 # Запустить .py файл
@@ -105,7 +105,7 @@ print('Сохранено!')
 
 ---
 
-## Отладка шаг за шагом
+## Отладка
 
 ### 1. print-отладка (самый простой способ)
 
@@ -116,26 +116,26 @@ clients = [
 ]
 
 for c in clients:
-    print(f'DEBUG: {c}')           # что внутри?
+    print(f'DEBUG: {c}')
     premium = 12_000 * 1.5 if c['age'] < 25 else 12_000
-    print(f'DEBUG: premium={premium}')  # правильно считает?
+    print(f'DEBUG: premium={premium}')
     c['premium'] = premium
 ```
 
 ### 2. Разбивка на маленькие ячейки
 
 ```python
-# Ячейка 1: создаём данные
+# Ячейка 1
 data = {'name': 'Иванов', 'age': 35}
 ```
 
 ```python
-# Ячейка 2: проверяем тип
+# Ячейка 2 — проверяем тип
 print(type(data['age']))   # <class 'int'>
 ```
 
 ```python
-# Ячейка 3: пробуем операцию
+# Ячейка 3 — пробуем операцию
 result = data['age'] * 1.5
 print(result)  # 52.5
 ```
@@ -143,9 +143,9 @@ print(result)  # 52.5
 ### 3. Встроенный дебаггер
 
 ```python
-# После ошибки — запустить в следующей ячейке:
+# После ошибки запустить в следующей ячейке:
 %debug
-# Откроется интерактивная консоль. Команды: p x (print), n (next), q (quit)
+# Команды: p x (print x), n (next), q (quit)
 ```
 
 ---
@@ -173,7 +173,6 @@ def calculate_premium(age: int, accidents: int = 0) -> float:
         premium *= 1 + accidents * 0.2
     return round(premium, 2)
 
-# Тест сразу
 print(calculate_premium(22, 1))   # 21600.0
 print(calculate_premium(35, 0))   # 12000.0
 ```
@@ -183,36 +182,33 @@ print(calculate_premium(35, 0))   # 12000.0
 for c in clients:
     c['premium'] = calculate_premium(c['age'], c['accidents'])
 
-# Смотрим результат красиво
 print(json.dumps(clients, ensure_ascii=False, indent=2))
 ```
 
 ```python
 # Ячейка 4: статистика
 premiums = [c['premium'] for c in clients]
-print(f'Средняя премия: {sum(premiums)/len(premiums):,.0f} руб.')
-print(f'Итого сборов:   {sum(premiums):,.0f} руб.')
+print(f'Средняя: {sum(premiums)/len(premiums):,.0f} руб.')
+print(f'Итого:   {sum(premiums):,.0f} руб.')
 ```
 
 ---
 
-## Когда Jupyter, когда .py
+## Jupyter vs .py файл
 
 | Задача | Jupyter | .py файл |
 |---|---|---|
-| Учёба, эксперименты | ✅ | — |
-| Отладка непонятного кода | ✅ | — |
-| Разведочный анализ данных | ✅ | — |
-| FastAPI-сервер | — | ✅ |
-| Агент в продакшн | — | ✅ |
-| Автоматизация (cron) | — | ✅ |
+| Учёба, эксперименты | OK | — |
+| Отладка непонятного кода | OK | — |
+| FastAPI-сервер | — | OK |
+| Агент в продакшн | — | OK |
 
 ---
 
 ## Упражнения
 
 1. Установите JupyterLab и создайте первый notebook
-2. Напишите расчёт премии в ячейке и запустите `Shift+Enter`
-3. Добавьте Markdown-ячейку с объяснением формулы
-4. Используйте `%timeit` — сравните скорость list comprehension и цикла `for`
-5. Запустите `%run 01_variables/examples/01_first_variables.py` прямо из notebook
+2. Напишите расчёт премии и запустите `Shift+Enter`
+3. Добавьте Markdown-ячейку с объяснением
+4. Используйте `%timeit` — сравните list comprehension vs цикл `for`
+5. Запустите `%run 01_variables/examples/01_first_variables.py` из notebook
