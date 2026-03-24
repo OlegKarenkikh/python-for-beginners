@@ -91,6 +91,18 @@ ollama pull llama3.2
 
 ---
 
+
+## 🚀 Продвинутые главы
+
+| Глава | Тема | Ключевое |
+|---|---|---|
+| [14. Классы и ООП](./14_classes/) | Зачем нужны классы | `class`, `__init__`, наследование |
+| [15. Ошибки и логирование](./15_errors_debugging/) | Читаем traceback, пишем логи | `try/except`, `logging` |
+| [16. Базы данных](./16_databases/) | SQLite → PostgreSQL → ClickHouse | `sqlite3`, SQLAlchemy |
+| [17. Мониторинг](./17_monitoring/) | Prometheus + Grafana | метрики, дашборды |
+| [18. Kafka](./18_kafka/) | Очереди сообщений | продьюсер, консьюмер |
+| [19. Streamlit](./19_streamlit/) | Дашборды без фронтенда | `st.dataframe`, `st.chart` |
+
 ## 🛠️ Инструменты
 
 | Инструмент | Когда использовать | Файл |
