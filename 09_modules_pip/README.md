@@ -77,3 +77,77 @@ python examples/02_dates_and_policies.py
 ```
 
 ➡️ [Финальный проект →](../10_final_project/README.md)
+
+
+---
+
+## 🔗 Связь с FastAPI и агентами
+
+Модули — это не изолированный инструмент. Каждая следующая глава строится на них:
+
+| Модуль | Используется в |
+|---|---|
+| `json` | Гл. 08, 12, 13 — данные из файлов и от LLM |
+| `datetime` | Гл. 08, 11 — даты полисов в API |
+| `os` | Гл. 08, 20 — пути, переменные окружения |
+| `re` | Гл. 13 — извлечение JSON из ответов LLM |
+| `requests` | Гл. 12 — вызов LLM по HTTP |
+| `typing` | Гл. 11, 13 — подсказки типов в FastAPI |
+
+---
+
+## ❓ Вопросы которые возникают
+
+---
+
+### 🙋 `import` vs `from X import Y` — в чём разница?
+
+```python
+import json                    # подключить весь модуль
+json.loads(text)               # обращаться через имя модуля
+
+from json import loads, dumps  # взять только нужные функции
+loads(text)                    # вызывать напрямую
+
+from datetime import date, timedelta   # берём конкретное из datetime
+```
+
+Правило: для стандартной библиотеки чаще используйте `import module` —
+это явно показывает откуда пришла функция.
+
+---
+
+### 🙋 `pip` — это скачивает навсегда?
+
+`pip install requests` скачивает библиотеку **в текущую среду Python**.
+Если сменить компьютер или создать новое виртуальное окружение — надо установить снова.
+
+Именно поэтому существует `requirements.txt`: список всего что нужно установить.
+
+```bash
+# Записать всё что установлено:
+pip freeze > requirements.txt
+
+# Установить из файла на другом компьютере:
+pip install -r requirements.txt
+```
+
+---
+
+### 🙋 Стандартная библиотека vs сторонние пакеты
+
+| Стандартная (встроена, без pip) | Сторонние (нужен pip install) |
+|---|---|
+| `json`, `os`, `re`, `datetime` | `requests`, `fastapi`, `pydantic` |
+| `math`, `statistics`, `csv` | `pandas`, `numpy`, `sqlalchemy` |
+| `pathlib`, `logging`, `typing` | `openai`, `ollama`, `smolagents` |
+
+```python
+# Встроенная — просто import:
+import statistics
+print(statistics.mean([1, 2, 3]))  # 2.0
+
+# Сторонняя — сначала pip install requests, потом:
+import requests
+r = requests.get("https://api.example.com")
+```
