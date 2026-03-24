@@ -2,6 +2,8 @@
 
 <div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_interface.jpg" width="95%"/></div>
 
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_interface.jpg" width="95%"/></div>
+
 > Jupyter — среда, где код, результат и объяснение живут в одном документе.
 
 ---
