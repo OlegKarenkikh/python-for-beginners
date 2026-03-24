@@ -192,3 +192,115 @@ polisplus_api/
 1. Добавьте `GET /clients/city/{city}` — клиенты из конкретного города
 2. Сделайте `POST /batch-premium` — принимает список клиентов, возвращает список премий
 3. Добавьте middleware для логирования каждого запроса
+
+
+---
+
+## ❓ Вопросы которые возникают при изучении
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/qa_fastapi.png" alt="Вопросы о FastAPI" width="95%"/>
+</div>
+
+---
+
+### 🙋 Что такое `@app.get("/")`? Зачем `@`?
+
+`@` — это **декоратор**. Он модифицирует функцию которая идёт сразу после него.
+`@app.get("/")` означает: «зарегистрируй следующую функцию как обработчик GET-запроса на `/`».
+
+```python
+@app.get("/premium")
+def calculate(age: int):
+    return {"premium": age * 500}
+
+# Технически это сокращение для:
+def calculate(age: int):
+    return {"premium": age * 500}
+calculate = app.get("/premium")(calculate)
+```
+
+Когда приходит GET-запрос на `/premium` — FastAPI находит функцию и вызывает её.
+
+---
+
+### 🙋 `uvicorn main:app --reload` — как расшифровать?
+
+- `uvicorn` — ASGI-сервер (программа которая запускает ваш FastAPI)
+- `main` — файл `main.py` (без расширения `.py`)
+- `app` — переменная `app = FastAPI()` внутри этого файла
+- `--reload` — перезапускать автоматически при изменении файлов
+
+> ⚠️ `--reload` только для разработки! В продакшне уберите этот флаг.
+
+---
+
+### 🙋 `class ClientRequest(BaseModel)` — что это за класс?
+
+`BaseModel` из библиотеки Pydantic — класс для валидации данных.
+Когда вы пишете `class ClientRequest(BaseModel)` — создаёте **схему запроса**:
+
+```python
+class ClientRequest(BaseModel):
+    name:      str
+    age:       int = Field(ge=18, le=90)
+    accidents: int = Field(default=0, ge=0)
+
+# FastAPI автоматически:
+# 1. Прочитает JSON из тела запроса
+# 2. Проверит типы (age должен быть int)
+# 3. Проверит диапазон (18 ≤ age ≤ 90)
+# 4. При ошибке — вернёт HTTP 422 с описанием проблемы
+```
+
+---
+
+### 🙋 `ge=18, le=90` — что значат эти параметры?
+
+- `ge` — **g**reater or **e**qual (≥ 18)
+- `le` — **l**ess or **e**qual (≤ 90)
+- `gt` — **g**reater **t**han (> строго)
+- `lt` — **l**ess **t**han (< строго)
+
+```python
+age: int = Field(ge=18, le=90)    # 18 ≤ age ≤ 90
+amount: float = Field(gt=0)       # amount > 0
+```
+
+---
+
+### 🙋 `raise HTTPException` — что делает `raise`?
+
+`raise` — намеренно поднять исключение (прервать выполнение с сообщением об ошибке).
+
+```python
+@app.get("/clients/{client_id}")
+def get_client(client_id: int):
+    for c in db:
+        if c["id"] == client_id:
+            return c   # нашли — возвращаем
+    
+    raise HTTPException(status_code=404, detail="Клиент не найден")
+    # ↑ прерывает выполнение, FastAPI вернёт клиенту:
+    # HTTP 404
+    # {"detail": "Клиент не найден"}
+```
+
+`raise` используется когда что-то пошло не так и продолжать выполнение нельзя.
+
+---
+
+### 🙋 Зачем `response_model=PremiumResponse`?
+
+Три пользы:
+1. **Документация** — Swagger UI (`/docs`) покажет правильную схему ответа
+2. **Фильтрация** — лишние поля не попадут в ответ (например внутренние флаги)
+3. **Валидация** — если вернёте данные неправильного типа — ошибка на этапе разработки
+
+```python
+@app.post("/premium", response_model=PremiumResponse)
+def calc(client: ClientRequest):
+    # Если вернуть dict с лишними полями — они будут отфильтрованы
+    # Если забыть обязательное поле — ошибка при разработке, не в продакшне
+    return PremiumResponse(name=client.name, premium=12000, risk="low")
+```
