@@ -1,7 +1,7 @@
 # ✍️ Глава 02: Строки — работа с текстом
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/variables_explained.jpg" alt="Работа со строками" width="90%"/>
+<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/string_immutable.jpg" alt="Работа со строками" width="90%"/>
 </div>
 
 > **Цель:** научиться создавать и обрабатывать текстовые данные  
