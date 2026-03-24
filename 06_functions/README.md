@@ -85,6 +85,8 @@ def  имя_функции  (  параметры  ):
 
 ---
 
+
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/function_anatomy.jpg" alt="Анатомия функции" width="90%"/></div>
 ## Параметры по умолчанию
 
 ```python
