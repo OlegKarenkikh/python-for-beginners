@@ -116,3 +116,11 @@ ollama pull llama3.2
 - [Глоссарий](./resources/glossary.md)
 - [Частые ошибки](./resources/common_errors.md)
 - [Книги и сайты](./resources/books.md)
+
+---
+
+## 🙋 Ответы на вопросы новичка
+
+69 вопросов которые возникают при изучении курса — с честными ответами от senior-разработчика.
+
+➡️ [resources/senior_qa_answers.md](resources/senior_qa_answers.md)
