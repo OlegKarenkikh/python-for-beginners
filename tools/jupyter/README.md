@@ -1,136 +1,114 @@
 # 🪐 Jupyter Notebook — рабочий стол для экспериментов
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_interface.jpg" alt="Jupyter Notebook интерфейс" width="95%"/>
+<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_interface.jpg" alt="Jupyter interface" width="95%"/>
 </div>
 
-> **Jupyter Notebook** — интерактивная среда, где код, результаты и объяснения
-> живут в одном документе. Идеально для обучения и экспериментов.
+> Jupyter — среда, где код, результат и объяснение живут в одном документе.
+> Идеально для обучения, отладки и экспериментов.
 
 ---
 
-## Установка
+## Установка и запуск
 
 ```bash
-pip install jupyter notebook
-# Или более современный JupyterLab (рекомендуется)
 pip install jupyterlab
+jupyter lab          # откроет браузер на http://localhost:8888
 ```
 
-**Запуск:**
-```bash
-jupyter lab        # современный интерфейс (рекомендуется)
-jupyter notebook   # классический интерфейс
-```
-Откроется браузер на `http://localhost:8888`
+Или в **VS Code**: расширение `Jupyter` (Microsoft) — notebooks прямо в редакторе.
 
 ---
 
-## Ячейки — главная концепция
+## Два типа ячеек
 
-Notebook состоит из **ячеек** двух типов:
-
-| Тип | Содержимое | Переключить |
+| Тип | Что пишем | Переключить |
 |---|---|---|
-| **Code** | Python-код, результат появляется снизу | `Y` в командном режиме |
-| **Markdown** | Текст, заголовки, формулы | `M` в командном режиме |
+| **Code** | Python-код, результат под ячейкой | `Y` |
+| **Markdown** | Текст, заголовки, объяснения | `M` |
 
 ```python
-# Code cell — пишем код и запускаем Shift+Enter
+# Code cell — пишем код и жмём Shift+Enter
 clients = ['Иванов', 'Петрова', 'Сидоров']
 print(f'Клиентов: {len(clients)}')
-# Вывод появляется прямо здесь ↓
-# Клиентов: 3
+# Клиентов: 3   ← вывод появляется сразу здесь
 ```
 
 ---
 
-## Горячие клавиши (самые важные)
+## Горячие клавиши
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_shortcuts.jpg" alt="Горячие клавиши Jupyter" width="95%"/>
+<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_shortcuts.jpg" alt="Jupyter shortcuts" width="95%"/>
 </div>
 
-### Запуск ячеек
+### Запуск
 
 | Комбинация | Действие |
 |---|---|
-| `Shift + Enter` | Запустить ячейку и перейти к следующей |
-| `Ctrl + Enter` | Запустить ячейку, остаться на месте |
-| `Alt + Enter` | Запустить и создать новую ячейку ниже |
+| `Shift+Enter` | Запустить и перейти вниз |
+| `Ctrl+Enter` | Запустить, остаться на месте |
+| `Alt+Enter` | Запустить и добавить ячейку |
 
-### Командный режим (нажмите `Esc`)
+### Командный режим (`Esc`)
 
 | Клавиша | Действие |
 |---|---|
-| `A` | Новая ячейка **выше** (Above) |
-| `B` | Новая ячейка **ниже** (Below) |
-| `D D` | Удалить ячейку (два нажатия D) |
-| `Z` | Отменить удаление |
-| `M` | Сменить на Markdown |
-| `Y` | Сменить на Code |
-| `L` | Показать/скрыть номера строк |
+| `A` | Ячейка выше |
+| `B` | Ячейка ниже |
+| `D D` | Удалить ячейку |
+| `Z` | Отменить |
+| `M` | Markdown |
+| `Y` | Code |
 
-### Режим редактирования (нажмите `Enter`)
+### Режим редактирования (`Enter`)
 
 | Комбинация | Действие |
 |---|---|
-| `Tab` | Автодополнение (после `.`) |
-| `Shift + Tab` | Документация по функции |
-| `Ctrl + /` | Закомментировать строку |
-| `Ctrl + Z` | Отменить в ячейке |
+| `Tab` | Автодополнение |
+| `Shift+Tab` | Документация |
+| `Ctrl+/` | Комментарий |
 
 ---
 
-## Magic-команды — суперсила Jupyter
-
-Magic-команды начинаются с `%` (одна строка) или `%%` (вся ячейка).
+## Magic-команды
 
 ```python
-# ⏱️ Замер времени выполнения
+# Замер времени
 %timeit sum(range(1_000_000))
-# 13.4 ms ± 124 µs per loop
 
-# ⏱️ Время всей ячейки
+# Время всей ячейки
 %%time
 data = [i**2 for i in range(1_000_000)]
-# Wall time: 87.3 ms
 
-# 📋 Список всех переменных
-%who
-
-# 🔍 Подробный список с типами и размерами
+# Список переменных
 %whos
 
-# 🚀 Запустить .py файл
+# Запустить .py файл
 %run 01_variables/examples/01_first_variables.py
 
-# 💾 Записать содержимое ячейки в файл
-%%writefile my_script.py
-print('Привет!')
+# Справка по функции
+?sorted
 
-# 📖 Справка по функции (можно также: help(len))
-?len
-??sorted  # с исходным кодом
-
-# 🖥️ Команды терминала (без выхода из Jupyter)
+# Команды терминала
 !pip install requests
 !ls -la
-!python --version
 
-# 📊 Встроенные графики (matplotlib)
-%matplotlib inline
+# Сохранить ячейку как файл
+%%writefile my_script.py
+print('Сохранено!')
 
-# 🔁 Автоперезагрузка модулей (удобно при разработке)
+# Автоперезагрузка модулей при разработке
 %load_ext autoreload
 %autoreload 2
 ```
 
 ---
 
-## Отладка — как найти ошибку
+## Отладка шаг за шагом
 
-### Способ 1: print-отладка (самый простой)
+### 1. print-отладка (самый простой способ)
+
 ```python
 clients = [
     {'name': 'Иванов', 'age': 35},
@@ -138,98 +116,103 @@ clients = [
 ]
 
 for c in clients:
-    print(f'DEBUG: обрабатываем {c}')  # ← смотрим что внутри
+    print(f'DEBUG: {c}')           # что внутри?
     premium = 12_000 * 1.5 if c['age'] < 25 else 12_000
-    print(f'DEBUG: premium={premium}')
+    print(f'DEBUG: premium={premium}')  # правильно считает?
     c['premium'] = premium
 ```
 
-### Способ 2: отдельная ячейка для проверки
+### 2. Разбивка на маленькие ячейки
+
 ```python
 # Ячейка 1: создаём данные
 data = {'name': 'Иванов', 'age': 35}
+```
 
+```python
 # Ячейка 2: проверяем тип
 print(type(data['age']))   # <class 'int'>
+```
 
+```python
 # Ячейка 3: пробуем операцию
 result = data['age'] * 1.5
 print(result)  # 52.5
 ```
 
-### Способ 3: встроенный дебаггер
-```python
-%debug  # запускает после ошибки — появляется интерактивная консоль
-```
+### 3. Встроенный дебаггер
 
 ```python
-# Или так — точка останова внутри функции
-def calculate(age):
-    import pdb; pdb.set_trace()  # ← остановится здесь
-    return 12_000 * 1.5 if age < 25 else 12_000
+# После ошибки — запустить в следующей ячейке:
+%debug
+# Откроется интерактивная консоль. Команды: p x (print), n (next), q (quit)
 ```
 
 ---
 
-## Удобные расширения (установка)
+## Страховой пример — от идеи до результата
 
-```bash
-# Для JupyterLab — уже встроено большинство
-pip install jupyterlab
+```python
+# Ячейка 1: данные
+import json
 
-# nbformat — конвертация .ipynb в .py
-pip install nbconvert
-jupyter nbconvert --to script notebook.ipynb
+clients = [
+    {'name': 'Иванов А.П.',  'age': 35, 'accidents': 0},
+    {'name': 'Петрова М.С.', 'age': 22, 'accidents': 1},
+    {'name': 'Сидоров К.Д.', 'age': 47, 'accidents': 0},
+]
+print(f'Загружено: {len(clients)} клиентов')
+```
 
-# Виджеты — интерактивные слайдеры и кнопки
-pip install ipywidgets
+```python
+# Ячейка 2: функция расчёта
+def calculate_premium(age: int, accidents: int = 0) -> float:
+    base = 12_000
+    premium = base * 1.5 if age < 25 else base
+    if accidents > 0:
+        premium *= 1 + accidents * 0.2
+    return round(premium, 2)
+
+# Тест сразу
+print(calculate_premium(22, 1))   # 21600.0
+print(calculate_premium(35, 0))   # 12000.0
+```
+
+```python
+# Ячейка 3: применяем к базе
+for c in clients:
+    c['premium'] = calculate_premium(c['age'], c['accidents'])
+
+# Смотрим результат красиво
+print(json.dumps(clients, ensure_ascii=False, indent=2))
+```
+
+```python
+# Ячейка 4: статистика
+premiums = [c['premium'] for c in clients]
+print(f'Средняя премия: {sum(premiums)/len(premiums):,.0f} руб.')
+print(f'Итого сборов:   {sum(premiums):,.0f} руб.')
 ```
 
 ---
 
-## Структура папки для работы
+## Когда Jupyter, когда .py
 
-```
-my_notebooks/
-├── 01_variables.ipynb      ← урок 1
-├── 02_strings.ipynb        ← урок 2
-├── sandbox.ipynb           ← черновик для экспериментов
-├── premium_calc.ipynb      ← рабочий проект
-└── data/
-    └── clients.json
-```
-
----
-
-## Jupyter vs .py файл: когда что использовать
-
-| Ситуация | Jupyter Notebook | .py файл |
+| Задача | Jupyter | .py файл |
 |---|---|---|
-| Изучение и эксперименты | ✅ Идеально | — |
-| Пошаговый разбор данных | ✅ | — |
+| Учёба, эксперименты | ✅ | — |
 | Отладка непонятного кода | ✅ | — |
-| Финальный скрипт/API | — | ✅ |
+| Разведочный анализ данных | ✅ | — |
 | FastAPI-сервер | — | ✅ |
 | Агент в продакшн | — | ✅ |
-| Презентация результатов | ✅ | — |
-
----
-
-## VS Code + Jupyter (альтернатива)
-
-Если уже используете VS Code — notebooks работают прямо в редакторе:
-
-1. Установите расширение **Jupyter** (Microsoft)
-2. Создайте файл `notebook.ipynb`
-3. Выберите ядро Python
-4. Все те же ячейки, горячие клавиши и magic-команды работают
+| Автоматизация (cron) | — | ✅ |
 
 ---
 
 ## Упражнения
 
 1. Установите JupyterLab и создайте первый notebook
-2. Напишите ячейку с расчётом премии — запустите `Shift+Enter`
-3. Добавьте Markdown-ячейку с объяснением
-4. Используйте `%timeit` чтобы сравнить скорость list comprehension vs цикла for
-5. Запустите `%run 01_variables/examples/01_first_variables.py` из notebook
+2. Напишите расчёт премии в ячейке и запустите `Shift+Enter`
+3. Добавьте Markdown-ячейку с объяснением формулы
+4. Используйте `%timeit` — сравните скорость list comprehension и цикла `for`
+5. Запустите `%run 01_variables/examples/01_first_variables.py` прямо из notebook
