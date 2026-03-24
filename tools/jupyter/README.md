@@ -1,252 +1,133 @@
-# Test
+# Jupyter Notebook
 
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
-Hello world
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_interface.jpg" width="95%"/></div>
+
+> Jupyter — среда, где код, результат и объяснение живут в одном документе.
+> Идеально для обучения, отладки и экспериментов.
+
+---
+
+## Установка
+
+```bash
+pip install jupyterlab
+jupyter lab
+```
+
+Или в **VS Code**: расширение `Jupyter` (Microsoft).
+
+---
+
+## Два типа ячеек
+
+| Тип | Что | Перекл. |
+|---|---|---|
+| **Code** | Python-код | `Y` |
+| **Markdown** | Текст | `M` |
+
+---
+
+## Горячие клавиши
+
+<div align="center"><img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/jupyter_shortcuts.jpg" width="95%"/></div>
+
+| Комбинация | Действие |
+|---|---|
+| `Shift+Enter` | Запустить и перейти вниз |
+| `Ctrl+Enter` | Запустить, остаться |
+| `Alt+Enter` | Запустить + новая ячейка |
+| `Esc` | Командный режим |
+| `A` / `B` | Ячейка выше / ниже |
+| `D D` | Удалить ячейку |
+| `Z` | Отменить |
+| `M` / `Y` | Markdown / Code |
+| `Tab` | Автодополнение |
+| `Shift+Tab` | Документация |
+
+---
+
+## Magic-команды
+
+```python
+%timeit sum(range(1_000_000))   # замер времени
+%%time                          # время всей ячейки
+%whos                           # список переменных
+%run script.py                  # запустить .py
+?sorted                         # справка
+!pip install requests           # терминал
+%%writefile my.py               # сохранить ячейку в файл
+%load_ext autoreload            # автоперезагрузка
+%autoreload 2
+%debug                          # дебаггер
+```
+
+---
+
+## Отладка
+
+**1. print:**
+```python
+for c in clients:
+    print(f'DEBUG: {c}')
+    premium = 12_000 * 1.5 if c['age'] < 25 else 12_000
+    print(f'DEBUG: premium={premium}')
+```
+
+**2. Маленькие ячейки** — проверяем каждый шаг отдельно.
+
+**3. `%debug`** — интерактивный отладчик после ошибки.
+
+---
+
+## Страховой пример
+
+```python
+# Ячейка 1: данные
+import json
+clients = [
+    {'name': 'Ivanov', 'age': 35, 'accidents': 0},
+    {'name': 'Petrova', 'age': 22, 'accidents': 1},
+]
+print(f'Loaded: {len(clients)}')
+```
+
+```python
+# Ячейка 2: функция
+def calc(age, accidents=0):
+    p = 12_000 * 1.5 if age < 25 else 12_000
+    return round(p * (1 + accidents * 0.2) if accidents else p, 2)
+print(calc(22, 1))   # 21600.0
+```
+
+```python
+# Ячейка 3: применяем
+for c in clients:
+    c['premium'] = calc(c['age'], c['accidents'])
+print(json.dumps(clients, ensure_ascii=False, indent=2))
+```
+
+```python
+# Ячейка 4: статистика
+p = [c['premium'] for c in clients]
+print(f'Total: {sum(p):,.0f} rub')
+```
+
+---
+
+## Jupyter vs .py
+
+| Задача | Jupyter | .py |
+|---|---|---|
+| Учёба, эксперименты | ✅ | — |
+| Отладка | ✅ | — |
+| FastAPI, агент | — | ✅ |
+
+---
+
+## Упражнения
+
+1. Установите JupyterLab и создайте первый notebook
+2. Расчёт премии в ячейке — `Shift+Enter`
+3. Markdown-ячейка с объяснением
+4. `%timeit` — list comprehension vs цикл for
+5. `%run 01_variables/examples/01_first_variables.py`
