@@ -99,3 +99,101 @@ def load_claims(filepath: str) -> list:
 claims = load_claims("claims.json")
 print(f"Загружено {len(claims)} заявлений")
 ```
+
+
+---
+
+## ❓ Вопросы которые возникают при изучении
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/OlegKarenkikh/python-for-beginners/main/images/qa_files_json.png" alt="Вопросы о файлах и JSON" width="95%"/>
+</div>
+
+---
+
+### 🙋 Что такое `as f` в `with open(...) as f:`?
+
+`as f` — псевдоним (alias). Вы говорите: «объект файла называть `f` в этом блоке».
+Имя может быть любым, но `f` — стандартное соглашение Python.
+
+```python
+with open("clients.json", "r", encoding="utf-8") as f:
+    data = json.load(f)   # f — объект файла с методами read/write
+# ← файл автоматически закрыт при выходе из блока with
+```
+
+---
+
+### 🙋 Все режимы открытия файла:
+
+```python
+"r"  — чтение (по умолчанию). Ошибка если файл не существует.
+"w"  — запись. Создаёт файл. ⚠️ ПЕРЕЗАПИСЫВАЕТ если существует!
+"a"  — добавление (append). Добавляет в конец, не стирает.
+"x"  — создать новый. Ошибка если файл уже существует.
+"rb" — чтение в бинарном режиме (для изображений, PDF, Excel)
+"wb" — запись в бинарном режиме
+```
+
+> ⚠️ **Самая опасная ловушка:** `"w"` молча сотрёт файл если он существует!
+> Для добавления логов используйте `"a"`.
+
+---
+
+### 🙋 `json.dump` vs `json.dumps` — в чём разница?
+
+Мнемоника: `s` в конце = **S**tring (работа со строками).
+
+```python
+# Без s — работа с ФАЙЛОМ
+json.dump(data, file)     # записать в файл
+json.load(file)           # прочитать из файла
+
+# С s — работа со СТРОКОЙ
+json.dumps(data)          # словарь → строка
+json.loads(text)          # строка  → словарь
+```
+
+Применение:
+```python
+# dumps — когда нужно передать данные по сети или в логи
+text = json.dumps({"status": "ok"}, ensure_ascii=False)
+logger.info(f"Результат: {text}")
+
+# dump — когда нужно сохранить в файл
+with open("result.json", "w") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+```
+
+---
+
+### 🙋 `ensure_ascii=False` — что это?
+
+По умолчанию json экранирует все не-ASCII символы (кириллицу):
+
+```python
+data = {"name": "Иванов"}
+
+json.dumps(data)                           # '{"name": "\u0418\u0432\u0430\u043d\u043e\u0432"}'
+json.dumps(data, ensure_ascii=False)       # '{"name": "Иванов"}'
+```
+
+**Всегда** указывайте `ensure_ascii=False` при работе с кириллицей.
+
+---
+
+### 🙋 Python конвертирует `True/False` автоматически?
+
+Да, `json.dump`/`json.load` делают это прозрачно:
+
+```
+Python → JSON:   True  → true   |  False → false  |  None → null
+JSON   → Python: true  → True   |  false → False  |  null → None
+```
+
+```python
+data = {"active": True, "deleted": None}
+text = json.dumps(data)         # '{"active": true, "deleted": null}'
+back = json.loads(text)         # {'active': True, 'deleted': None}
+print(back["active"] is True)   # True
+```
