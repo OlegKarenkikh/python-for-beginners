@@ -12,11 +12,11 @@ from pathlib import Path
 
 # ─── Коэффициенты ──────────────────────────────────────────
 def age_factor(age: int) -> float:
-    if age < 25: return 1.5
-    if age < 35: return 1.1
-    if age < 55: return 1.0
-    if age < 70: return 1.2
-    return 1.5
+    if age < 25:  return 1.5   # молодые водители (до 25)
+    if age <= 35: return 1.1   # 25–35 лет
+    if age < 55:  return 1.0   # 36–54 года (оптимальный возраст)
+    if age < 70:  return 1.2   # 55–69 лет
+    return 1.5                 # 70+ лет
 
 def accident_factor(accidents: int) -> float:
     if accidents == 0: return 0.90
