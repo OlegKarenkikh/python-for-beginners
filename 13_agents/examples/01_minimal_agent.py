@@ -54,7 +54,7 @@ TOOL_REGISTRY = {
 #   3. func   = TOOL_REGISTRY[fn_name]        # находим функцию по имени
 #      result = func(**fn_args)               # вызываем с именованными аргументами
 #
-# Запись TOOL_REGISTRY[fn_name](**fn_args) — это шаги 3 в одну строку.
+# Запись TOOL_REGISTRY[fn_name](**fn_args) — это шаг 3, записанный в одну строку.
 
 TOOLS_SCHEMA = [
     {
