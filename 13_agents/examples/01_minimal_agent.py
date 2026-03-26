@@ -45,6 +45,17 @@ TOOL_REGISTRY = {
     "check_documents":   check_documents,
 }
 
+# ── Как работает вызов инструмента ──────────────────────────────────────────
+# LLM возвращает имя функции и аргументы, Python выполняет в три шага:
+#
+#   1. fn_name = "calculate_premium"          # имя функции (от LLM)
+#   2. fn_args = {"age": 35, "accidents": 0}  # аргументы  (от LLM)
+#
+#   3. func   = TOOL_REGISTRY[fn_name]        # находим функцию по имени
+#      result = func(**fn_args)               # вызываем с именованными аргументами
+#
+# Запись TOOL_REGISTRY[fn_name](**fn_args) — это шаги 3 в одну строку.
+
 TOOLS_SCHEMA = [
     {
         "type": "function",
